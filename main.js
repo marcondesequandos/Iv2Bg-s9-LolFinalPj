@@ -19,39 +19,171 @@
 
 //fazer pagina de itens
 
+
+
+
+
+
+
+
+
+
 var champn
+var mCont = document.getElementById('main')
+
+// function capitalizeFirstLetter(string) {
+//     return string.charAt(0).toUpperCase() + string.slice(1);
+//   }
+// console.log(champn)  
+// capitalizeFirstLetter(champn)
+
+
+// jQuery(document).ready(function () {
+
+//     jQuery('#nomeC').keyup(function () {
+//         var str = jQuery('#nomeC').val();
+
+
+
+
 
 document.getElementById('cNam').addEventListener("keyup", function(e) {
-    if (e.keyCode === 13) {
-        summonChampion ()
-    }
-}
     
+    titleCase()
+    
+    if (e.keyCode === 13) {
+                         
+        removeDelta()
+        removeSpaces()
+        event.preventDefault()
+        summonChampion ()
+        
+        
+        
+    }
+})
 
-)
+
+
+
+
+  
+
+function ForNumbers(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode
+
+    if (
+    //0~9
+    charCode >= 48 && charCode <= 57 ||
+       //number pad 0~9
+       charCode >= 96 && charCode <= 105 ||
+    //backspace
+       charCode == 8 ||
+    //tab
+    charCode == 9 ||
+    //enter
+    charCode == 13 || 
+    //left, right, delete..
+    charCode >= 35 && charCode <= 46
+    )
+    {
+    //make sure the new value below 18
+    if(parseInt(this.value+String.fromCharCode(charCode), 10) <= 18) 
+        return true;
+    }
+
+    evt.preventDefault()
+    evt.stopPropagation()
+
+    return false
+}
+
+document.getElementById('nvl').addEventListener('keypress', ForNumbers, false)
+
+function removeSpaces() {
+    var originalText = document.getElementById("cNam").value
+
+    removedSpacesText = originalText.split(" ").join("")
+
+    document.getElementById("cNam").value = removedSpacesText
+}
+
+function removeDelta() {
+    var originalText = document.getElementById("cNam").value
+
+    removedSpacesText = originalText.split("'").join("")
+
+    document.getElementById("cNam").value = removedSpacesText
+}
+
+
+
+function titleCase() {
+
+    var originalText = document.getElementById('cNam').value
+
+    var splitStr = originalText.toLowerCase().split(' ')
+    for (var i = 0; i < splitStr.length; i++) {
+        // You do not need to check if i is larger than splitStr length, as your for does that for you
+        // Assign it back to the array
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+    }   
+// Directly return the joined string
+
+document.getElementById('cNam').value = splitStr.join(' ')
+
+}
+
+
 
 function summonChampion () {
 
-    document.getElementById('introc').innerHTML = ""
     document.getElementById('trdInfo').innerHTML = ""
     document.getElementById('frtInfo').innerHTML = ""
     document.getElementById('abInfos').innerHTML = ""
+    document.getElementById('nvl').innerHTML = ""
+
+    
+
 
     
 
     champn = document.getElementById('cNam').value
+
+  
+    
+
+    
+    mCont.style.visibility = "visible"
+    document.getElementById('chImg').style.visibility = "visible"
+    document.getElementById('abilities').style.visibility = "visible"
+    document.getElementById('stlvl').style.visibility = "visible"
+    document.getElementById('trd').style.visibility = "visible"
+    document.getElementById('frt').style.visibility = "visible"
+    
+
     console.log(champn)
 
 
     fetch(`https://ddragon.leagueoflegends.com/cdn/10.23.1/data/pt_BR/champion/${champn}.json`)
         .then((response) => { return response.json()
         .then((champd) => {
-    console.log(champd.data)
+        console.log(champd.data)
+        
+
+        
 
 
 
     cName = `${champn}`
+
+
     console.log(cName)
+    console.log(champd.data[cName].allytips[0])
+
+
+    
+
 
     let Passive = champd.data[cName].passive.image.full
     console.log(Passive)
@@ -75,33 +207,22 @@ function summonChampion () {
 
     if (champd.data[cName].tags[0] == "Marksman") {
         var func = "Atirador"
+    } else if (champd.data[cName].tags[0] == "Assassin") {
+        var func = "Assassino"
+    } else if (champd.data[cName].tags[0] == "Fighter") {
+        var func = "Lutador"
+    } else if (champd.data[cName].tags[0] == "Mage") {
+        var func = "Mago"
+    } else if (champd.data[cName].tags[0] == "Support") {
+        var func = "Suporte"
+    } else if (champd.data[cName].tags[0] == "Tank") {
+        var func = "Tanque"
+    } else {
+        var func = "undefined"
     }
 
-    document.getElementById('introc').innerHTML =
 
-    `
-    <div style="padding: 20px">
-        <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;"> 
-            <h1>`+ champd.data[cName].name+` </h1>            
-            <h5>`+ champd.data[cName].title +`</h5>
-            <div style="display: inline;">            
-            <h6>Função: ${func} <img src='Images/marksmen.jpg' width="70px"></h6>
-            <h6>Dificuldade: <img src='Images/difficultlow.JPG' width="70px"></h6>
-            </div>
-            <div style="text-align: center;"> 
-        </div>
-        </div>
-        <br>
-        <div style="padding: 20px" >
 
-                `+ champd.data[cName].lore + ` 
-
-            
-        </div>
-    <br>
-
-    </div>        
-    `
 
     noDelay()
 
@@ -110,7 +231,7 @@ function summonChampion () {
        
 
         for (skin in champd.data[cName].skins) {
-        j.push(`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champn}_`+champd.data[cName].skins[skin].num+`.jpg`)   
+        j.push(`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champn}_`+champd.data[cName].skins[skin].num+`.jpg`)   
         }
 
         //nome da skin:
@@ -124,15 +245,43 @@ function summonChampion () {
         
 
         var cont = 0
+        var chNam = champd.data[cName].name.toUpperCase()
+        var chTit = champd.data[cName].title.toUpperCase()
+      
 
         document.getElementById('chImg').innerHTML =
         
-        `        
-        <button class="cimg" id="lbt" style="left: 0px;"><span class="material-icons">keyboard_arrow_left</span></button>
-        <div class="cimg" id="sk">        
-            <img id="camp" src='https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champn}_${cont}.jpg''>
+        `
+        <div style="display:flex; flex-direction: row; justify-content: center; text-align:center; align-items: center;">        
+        <p style="justify-content: center; margin: 0px">
+        <button class="cimg" id="lbt" "><span class="material-icons">keyboard_arrow_left</span></button>        
+        
+        </p> 
+
+        <div class="cimg" id="sk">
+            
+            <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+                <img id="camp" width="50%" src='https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champn}_${cont}.jpg''> 
+                <div style="display: flex; flex-direction: row; align-items: center;">                   
+                <h1 style="margin-right: 90px;"> ${chNam}</h1>
+                <h4> - ${chTit} -</h4>            
+                </div>
+                
+                
+                <div style="display: flex; flex-direction: row; align-items: center;">            
+                <h6 style="margin-right: 90px;">  Função: ${func} `+ '    ' + ` <img src='Images/`+champd.data[cName].tags[0]+`.jpg' width="70px"> </h6>
+                <h6>Dificuldade: ${diff} <br> <img src='Images/${diff}.png' width="70px"></h6>
+                </div>
+                <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+                `+ champd.data[cName].lore + `
+                </div>
+            </div>
+            
         </div>
-        <button class="cimg" id="rbt" style="right: 0px;"><span class="material-icons">keyboard_arrow_right</span></button>                                          
+        <button class="cimg" id="rbt" ><span class="material-icons">keyboard_arrow_right</span></button>
+
+        </div>
+                                         
         `
 
 
@@ -150,7 +299,23 @@ function summonChampion () {
 
         document.getElementById('sk').innerHTML = 
 
-        `<img src="`+j[cont1]+`">`
+        
+
+        `<div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+        <img id="camp" width="50%" src="`+j[cont1]+`">  
+        <div style="display: flex; flex-direction: row; align-items: center;">                   
+        <h1 style="margin-right: 90px;"> ${chNam}</h1>
+        <h4> - ${chTit} -</h4>            
+        </div>       
+        <div style="display: flex; flex-direction: row; align-items: center;">            
+        <h6 style="margin-right: 90px;">  Função: ${func} `+ '    ' + ` <img src='Images/`+champd.data[cName].tags[0]+`.jpg' width="70px"> </h6>
+        <h6>Dificuldade: ${diff} <br> <img src='Images/${diff}.png' width="70px"></h6>
+        </div>
+        <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+        `+ champd.data[cName].lore + `
+        </div>
+        </div>
+        `
 
 
 
@@ -166,35 +331,49 @@ function summonChampion () {
 
         document.getElementById('sk').innerHTML = 
 
-        `<img src="`+j[cont1]+`">`
+        `<div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+        <img id="camp" width="50%" src="`+j[cont1]+`">  
+        <div style="display: flex; flex-direction: row; align-items: center;">                   
+        <h1 style="margin-right: 90px;"> ${chNam}</h1>
+        <h4> - ${chTit} -</h4>            
+        </div>       
+        <div style="display: flex; flex-direction: row; align-items: center;">            
+        <h6 style="margin-right: 90px;">  Função: ${func} `+ '    ' + ` <img src='Images/`+champd.data[cName].tags[0]+`.jpg' width="70px"> </h6>
+        <h6>Dificuldade: ${diff} <br> <img src='Images/${diff}.png' width="70px"></h6>
+        </div>
+        <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+        `+ champd.data[cName].lore + `
+        </div>
+        </div>
+        `
 
         })
 
-    }
-
-
-
-
-    
+    }   
 
 
     document.getElementById('stcont').innerHTML =
 
     `
-    <div>
-    <div id="st">                     
-        <h2>Nível `+ 1 + `</h2>
+    <div style="display:flex; flex-direction: row; align-items: center; justify-content: center; text-align: right;">
+    <div id="st" style="margin-right:100px;">
+        <br>                   
         <p>Vida: ` + champd.data[cName].stats.hp + `</p>
         <p>Velocidade de Movimento: ` + champd.data[cName].stats.movespeed + `</p>
         <p>Alcance de Ataque: ` + champd.data[cName].stats.attackrange + `</p>
-        <p>Velocidade de Ataque: ` + champd.data[cName].stats.attackspeed + `</p>
+        <p>Velocidade de Ataque: ` + champd.data[cName].stats.attackspeed + `</p>      
+    </div>
+    <div>
+        <br>
         <p>Dano de Ataque: ` + champd.data[cName].stats.attackdamage + `</p>
         <p>Armadura: ` + champd.data[cName].stats.armor + `</p>
         <p>Resistência Mágica: ` + champd.data[cName].stats.spellblock + `</p>
-        <p>Mana: ` + champd.data[cName].stats.mp + `</p>
+        <p>Mana: ` + champd.data[cName].stats.mp + `</p>    
     </div>
     </div>    
     `
+
+    
 
 
 
@@ -202,55 +381,106 @@ function summonChampion () {
 
     document.getElementById('nvl').addEventListener('input', function () {
 
-    nvl = document.getElementById('nvl').value
+
+    var nvl = document.getElementById('nvl').value
 
     hpUP = (champd.data[cName].stats.hp + (champd.data[cName].stats.hpperlevel * (nvl -1)))
-    vmUP = champd.data[cName].stats.movespeed
-    arUP = champd.data[cName].stats.attackrange
+    vmUP = champd.data[cName].stats.movespeed.toFixed(0)
+    arUP = champd.data[cName].stats.attackrange.toFixed(0)
     asUP = (champd.data[cName].stats.attackspeed + (champd.data[cName].stats.attackspeed * champd.data[cName].stats.attackspeedperlevel * (nvl -1) * 0.01)).toFixed(2)
-    dmUP = (champd.data[cName].stats.attackdamage + (champd.data[cName].stats.attackdamageperlevel * (nvl -1)))
-    amUP = (champd.data[cName].stats.armor + (champd.data[cName].stats.armorperlevel * (nvl -1)))
-    rmUP = (champd.data[cName].stats.spellblock + (champd.data[cName].stats.spellblockperlevel * (nvl -1)))
-    mpUP = (champd.data[cName].stats.mp + (champd.data[cName].stats.mpperlevel * (nvl -1)))
+    dmUP = (champd.data[cName].stats.attackdamage + (champd.data[cName].stats.attackdamageperlevel * (nvl -1))).toFixed(0)
+    amUP = (champd.data[cName].stats.armor + (champd.data[cName].stats.armorperlevel * (nvl -1))).toFixed(0)
+    rmUP = (champd.data[cName].stats.spellblock + (champd.data[cName].stats.spellblockperlevel * (nvl -1))).toFixed(0)
+    mpUP = (champd.data[cName].stats.mp + (champd.data[cName].stats.mpperlevel * (nvl -1))).toFixed(0)
 
+    
+    if (nvl != "") {
+        
+        document.getElementById('stcont').innerHTML =
 
+            `
+            <div style="display:flex; flex-direction: row; align-items: center; justify-content: center; text-align: right;">
+                <div id="st" style="margin-right:100px;">
+                    <br>                   
+                    <p>Vida: ` + hpUP + `</p>
+                    <p>Velocidade de Movimento: ` + vmUP + `</p>
+                    <p>Distância de Ataque: ` + arUP + `</p>
+                    <p>Velocidade de Ataque: ` + asUP + `</p>
+                </div>
+                <div>
+                    <br>
+                    <p>Dano de Ataque: ` + dmUP + `</p>
+                    <p>Armadura: ` + amUP + `</p>
+                    <p>Resistência Mágica: ` + rmUP + `</p>
+                    <p>Mana: ` + mpUP + `</p>                
+                </div>
+                
+            </div> 
+            `  
+    } else {
 
-
-    document.getElementById('stcont').innerHTML =
-
-    `
-    <div>
-        <div id="st">                     
-            <h2>Nível ` + nvl + `</h2>
-            <p>Vida: ` + hpUP + `</p>
-            <p>Velocidade de Movimento: ` + vmUP + `</p>
-            <p>Distância de Ataque: ` + arUP + `</p>
-            <p>Velocidade de Ataque: ` + asUP + `</p>
-            <p>Dano de Ataque: ` + dmUP + `</p>
-            <p>Armadura: ` + amUP + `</p>
-            <p>Resistência Mágica: ` + rmUP + `</p>
-            <p>Mana: ` + mpUP + `</p>
+        `
+        <div style="display:flex; flex-direction: row; align-items: center; justify-content: center; text-align: right;">
+        <div id="st" style="margin-right:100px;">
+            <br>                   
+            <p>Vida: ` + champd.data[cName].stats.hp + `</p>
+            <p>Velocidade de Movimento: ` + champd.data[cName].stats.movespeed + `</p>
+            <p>Alcance de Ataque: ` + champd.data[cName].stats.attackrange + `</p>
+            <p>Velocidade de Ataque: ` + champd.data[cName].stats.attackspeed + `</p>      
         </div>
-    </div> 
-    `        
+        <div>
+            <br>
+            <p>Dano de Ataque: ` + champd.data[cName].stats.attackdamage + `</p>
+            <p>Armadura: ` + champd.data[cName].stats.armor + `</p>
+            <p>Resistência Mágica: ` + champd.data[cName].stats.spellblock + `</p>
+            <p>Mana: ` + champd.data[cName].stats.mp + `</p>    
+        </div>
+        </div>    
+        `
+
+    }
+
+
+          
     })
 
+    for (let at in champd.data[cName].allytips) {
+        if (at <= 1) {
+            document.getElementById('trdInfo').innerHTML += '<div id="allytips"><p>' + champd.data[cName].allytips[at] + '</p></div>'
+        }
+    }
+    
+    for (let et in champd.data[cName].enemytips) {
+        if (et <= 1) {
+            document.getElementById('frtInfo').innerHTML += '<div id="enemytips"><p>' + champd.data[cName].enemytips[et] + '</div></p>'
+        }
+    }
+    
+
+    function resizeImage(img) {
+        img.style.width = "115px";
+        
+    }
+
+
+
+
     document.getElementById('passAb').innerHTML =
-    `<img  style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/passive/${Passive}">`
+    `<img  id="Ps" class="abImg" style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/passive/${Passive}" onclick="resizeImage(this)">`
     document.getElementById('abQ').innerHTML =
-    `<img style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${Q}">`
+    `<img id="Q" class="abImg" style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${Q}" onclick="resizeImage(this)">`
     document.getElementById('abW').innerHTML =
-    `<img style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${W}">`
+    `<img id="W" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${W}" onclick="resizeImage(this)">`
     document.getElementById('abE').innerHTML =
-    `<img style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${E}">`
+    `<img id="E" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${E}" onclick="resizeImage(this)">`
     document.getElementById('abR').innerHTML =
-    `<img style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${R}">`
+    `<img id="R" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${R}" onclick="resizeImage(this)">`
 
     document.getElementById('passDsc').innerHTML = 
 
-    `<div style="margin-top: 20px">
-    <p>`+ champd.data[cName].passive.name +`</p>
-    <p>`+ champd.data[cName].passive.description +`</p>
+    `<div style="margin-top: 20px;">
+    <p id="Ps1" style="display: none">`+ champd.data[cName].passive.name +`</p>
+    <p id="Ps2" style="display: none">`+ champd.data[cName].passive.description +`</p>
     <br>
     </div>
     `
@@ -267,27 +497,41 @@ function summonChampion () {
 
 
     document.getElementById('abQ').addEventListener('click', function () {
+
         document.getElementById('passDsc').style.display = "none"
+        document.getElementById('Ps').style.width = "100px"
     
         document.getElementById('abname0').style.removeProperty('display')
         document.getElementById('custo0').style.removeProperty('display')
         document.getElementById('cooldown0').style.removeProperty('display')
         document.getElementById('description0').style.removeProperty('display')
+        document.getElementById('Q').style.width = "115px"
     
         document.getElementById('abname1').style.display = "none"
         document.getElementById('custo1').style.display = "none"
         document.getElementById('cooldown1').style.display = "none"
         document.getElementById('description1').style.display = "none"
+        document.getElementById('W').style.width = "100px"
     
         document.getElementById('abname2').style.display = "none"
         document.getElementById('custo2').style.display = "none"
         document.getElementById('cooldown2').style.display = "none"
         document.getElementById('description2').style.display = "none"
+        document.getElementById('E').style.width = "100px"
     
         document.getElementById('abname3').style.display = "none"
         document.getElementById('custo3').style.display = "none"
         document.getElementById('cooldown3').style.display = "none"
         document.getElementById('description3').style.display = "none"
+        document.getElementById('R').style.width = "100px"
+
+        document.getElementById('Q').style.opacity = "1"
+        document.getElementById('W').style.opacity = "0.5"
+        document.getElementById('E').style.opacity = "0.5"
+        document.getElementById('R').style.opacity = "0.5"
+        
+        document.getElementById('Ps').style.opacity = "0.5"
+  
     
     
     
@@ -295,74 +539,114 @@ function summonChampion () {
     
     document.getElementById('abW').addEventListener('click', function () {
         document.getElementById('passDsc').style.display = "none"
+        document.getElementById('Ps').style.width = "100px"
     
         document.getElementById('abname0').style.display = "none"
         document.getElementById('custo0').style.display = "none"
         document.getElementById('cooldown0').style.display = "none"
         document.getElementById('description0').style.display = "none"
+        document.getElementById('Q').style.width = "100px"
     
         document.getElementById('abname1').style.removeProperty('display')
         document.getElementById('custo1').style.removeProperty('display')
         document.getElementById('cooldown1').style.removeProperty('display')
         document.getElementById('description1').style.removeProperty('display')
+        document.getElementById('W').style.width = "115px"
     
         document.getElementById('abname2').style.display = "none"
         document.getElementById('custo2').style.display = "none"
         document.getElementById('cooldown2').style.display = "none"
         document.getElementById('description2').style.display = "none"
+        document.getElementById('E').style.width = "100px"
     
         document.getElementById('abname3').style.display = "none"
         document.getElementById('custo3').style.display = "none"
         document.getElementById('cooldown3').style.display = "none"
         document.getElementById('description3').style.display = "none"
+        document.getElementById('R').style.width = "100px"
+
+        document.getElementById('Q').style.opacity = "0.5"
+        document.getElementById('W').style.opacity = "1"
+        document.getElementById('E').style.opacity = "0.5"
+        document.getElementById('R').style.opacity = "0.5"
+
+        document.getElementById('Ps').style.opacity = "0.5"
+
+
     })
     
     document.getElementById('abE').addEventListener('click', function () {
         document.getElementById('passDsc').style.display = "none"
+        document.getElementById('Ps').style.width = "100px"
     
         document.getElementById('abname0').style.display = "none"
         document.getElementById('custo0').style.display = "none"
         document.getElementById('cooldown0').style.display = "none"
         document.getElementById('description0').style.display = "none"
+        document.getElementById('Q').style.width = "100px"
     
         document.getElementById('abname1').style.display = "none"
         document.getElementById('custo1').style.display = "none"
         document.getElementById('cooldown1').style.display = "none"
         document.getElementById('description1').style.display = "none"
+        document.getElementById('W').style.width = "100px"
     
         document.getElementById('abname2').style.removeProperty('display')
         document.getElementById('custo2').style.removeProperty('display')
         document.getElementById('cooldown2').style.removeProperty('display')
         document.getElementById('description2').style.removeProperty('display')
+        document.getElementById('E').style.width = "115px"
     
         document.getElementById('abname3').style.display = "none"
         document.getElementById('custo3').style.display = "none"
         document.getElementById('cooldown3').style.display = "none"
         document.getElementById('description3').style.display = "none"
+        document.getElementById('R').style.width = "100px"
+
+        document.getElementById('Q').style.opacity = "0.5"
+        document.getElementById('W').style.opacity = "0.5"
+        document.getElementById('E').style.opacity = "1"
+        document.getElementById('R').style.opacity = "0.5"
+
+        document.getElementById('Ps').style.opacity = "0.5"
+
     })
     
     document.getElementById('abR').addEventListener('click', function () {
         document.getElementById('passDsc').style.display = "none"
+        document.getElementById('Ps').style.width = "100px"
     
         document.getElementById('abname0').style.display = "none"
         document.getElementById('custo0').style.display = "none"
         document.getElementById('cooldown0').style.display = "none"
         document.getElementById('description0').style.display = "none"
+        document.getElementById('Q').style.width = "100px"
     
         document.getElementById('abname1').style.display = "none"
         document.getElementById('custo1').style.display = "none"
         document.getElementById('cooldown1').style.display = "none"
         document.getElementById('description1').style.display = "none"
+        document.getElementById('W').style.width = "100px"
     
         document.getElementById('abname2').style.display = "none"
         document.getElementById('custo2').style.display = "none"
         document.getElementById('cooldown2').style.display = "none"
         document.getElementById('description2').style.display = "none"
+        document.getElementById('E').style.width = "100px"
     
         document.getElementById('abname3').style.removeProperty('display')
         document.getElementById('custo3').style.removeProperty('display')
         document.getElementById('cooldown3').style.removeProperty('display')
         document.getElementById('description3').style.removeProperty('display')
+        document.getElementById('R').style.width = "115px"
+
+        document.getElementById('Q').style.opacity = "0.5"
+        document.getElementById('W').style.opacity = "0.5"
+        document.getElementById('E').style.opacity = "0.5"
+        document.getElementById('R').style.opacity = "1"
+
+        document.getElementById('Ps').style.opacity = "0.5"
+
     })
     }
     
@@ -378,35 +662,49 @@ function summonChampion () {
     
     })
     })
-    
-    
-    }
+
     
     
     
+    }    
+        
     document.getElementById('passAb').addEventListener('click', function () {
-    document.getElementById('passDsc').style.removeProperty('display')
-    
-    document.getElementById('abname0').style.display = "none"
-    document.getElementById('custo0').style.display = "none"
-    document.getElementById('cooldown0').style.display = "none"
-    document.getElementById('description0').style.display = "none"
-    
-    document.getElementById('abname1').style.display = "none"
-    document.getElementById('custo1').style.display = "none"
-    document.getElementById('cooldown1').style.display = "none"
-    document.getElementById('description1').style.display = "none"
-    
-    document.getElementById('abname2').style.display = "none"
-    document.getElementById('custo2').style.display = "none"
-    document.getElementById('cooldown2').style.display = "none"
-    document.getElementById('description2').style.display = "none"
-    
-    document.getElementById('abname3').style.display = "none"
-    document.getElementById('custo3').style.display = "none"
-    document.getElementById('cooldown3').style.display = "none"
-    document.getElementById('description3').style.display = "none"
-    
-    
+        document.getElementById('passDsc').style.removeProperty('display')  
+        document.getElementById('Ps1').style.removeProperty('display')
+        document.getElementById('Ps2').style.removeProperty('display')
+        document.getElementById('custo1').style.removeProperty('display')
+        document.getElementById('Ps').style.width = "115px"
+        
+        document.getElementById('abname0').style.display = "none"
+        document.getElementById('custo0').style.display = "none"
+        document.getElementById('cooldown0').style.display = "none"
+        document.getElementById('description0').style.display = "none"
+        document.getElementById('Q').style.width = "100px"
+        
+        document.getElementById('abname1').style.display = "none"
+        document.getElementById('custo1').style.display = "none"
+        document.getElementById('cooldown1').style.display = "none"
+        document.getElementById('description1').style.display = "none"
+        document.getElementById('W').style.width = "100px"
+        
+        document.getElementById('abname2').style.display = "none"
+        document.getElementById('custo2').style.display = "none"
+        document.getElementById('cooldown2').style.display = "none"
+        document.getElementById('description2').style.display = "none"
+        document.getElementById('E').style.width = "100px"
+        
+        document.getElementById('abname3').style.display = "none"
+        document.getElementById('custo3').style.display = "none"
+        document.getElementById('cooldown3').style.display = "none"
+        document.getElementById('description3').style.display = "none"
+        document.getElementById('R').style.width = "100px"
+
+        document.getElementById('Q').style.opacity = "0.5"
+        document.getElementById('W').style.opacity = "0.5"
+        document.getElementById('E').style.opacity = "0.5"
+        document.getElementById('R').style.opacity = "0.5"
+        
+        document.getElementById('Ps').style.opacity = "1"
+      
     
     })    
