@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-orange.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&amp;display=swap" rel="stylesheet">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <title>Consumo da API de League of Legends</title>
+    <style>
+        body {
+            flex-direction: column;
+            font-family: 'Merriweather', 'serif';
+        }
+
+        .demo-card-wide {
+            padding: 5px;
+            margin: 5px;
+            background-color: rgba(0,0,0,0.3);
+            color: white;
+            
+        }
+
+
+
+        .mdl-card__title {
+            font-family: 'Nunito Sans', 'sans-serif';
+            font-size: 1.2em;
+            color: white;
+            background-color: rgba(0,0,0,0.4);
+            margin-top: 0px;
+        }
+        
+
+        .ab {
+            display: inline;
+            padding: 5px;
+            margin: auto;
+        }
+
+        button {
+            background-color: rgba(255,255,255,0);
+            border: none;             
+            top: 50%;
+            color: white;
+             
+        
+        }            
+        
+        .material-icons {
+            font-size: 3em;
+        }
+
+        .mdl-card {
+            display: inline;
+        }
+
+
+
+        .cimg {
+            display: inline;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        #bg {
+            background-image: url(Images/summoners-rift1.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        header {
+            background-color: rgb(17, 17, 17) !important;
+        }
+
+   
+
+
+    </style>
+</head>
+<body>
+    <div id="bg">        
+        <header class="mdl-layout__header mdl-layout__header--scroll">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <a href="index.html">
+                    <img src="Images/League_of_Legends_logo.png" width="115px">
+                </a>
+                <!-- Navigation -->
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer" style="margin-left: 100px;">
+                    <form action="#">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+                            style="display: flex; width: 200px;">
+                            <input id="cNam" class="mdl-textfield__input" placeholder="Digite o conteúdo..." style="color: grey;" type="text" id="pesquisa">
+                            <label class="mdl-textfield__label" style="color: grey"></label>
+                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+    
+        <!-- main -->
+        <div id="main" style="display: flex; flex-wrap: wrap;">
+            
+            <div id="chImg" style="display: inline; margin: 5px;"></div> 
+            <div id="introc"  style="display:flex; flex-wrap:wrap;  width: 76.1%;;" class="demo-card-wide mdl-card mdl-shadow--2dp">
+            </div>
+            <div id="stlvl" class="demo-card-wide mdl-card mdl-shadow--2dp" style="justify-content: center; text-align: center; align-items: center; width: 36.5%;">
+                <input type="number" id="nvl" placeholder="nível" min="1" max="18">
+                <div id="stcont"></div>
+            </div>
+            <div id="abilities" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 61.5%; justify-content: center; text-align: center">
+                <div id="abLine" style="display: inline;">
+                    <div id="passAb" class="ab" style=></div>
+                    <div id="abQ" class="ab"></div>
+                    <div id="abW" class="ab"></div>
+                    <div id="abE" class="ab"></div>
+                    <div id="abR" class="ab"></div>
+                </div>
+                <div id="passDsc"></div>
+                <div id="abInfos"></div>
+            </div>                                
+                                            
+            
+            
+            <div id="trdInfo" class="demo-card-wide mdl-card mdl-shadow--2dp" style="font-size: 16px; width: 49.1%;">
+
+            </div>
+            <div id="frtInfo" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 49.1%;"></div>
+
+        </div>                    
+    </div>            
+    <script src="main.js"></script>
+</body>
+</html>
+
+
+
