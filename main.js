@@ -116,7 +116,6 @@ function summonChampion () {
         //nome da skin:
 
 
-
         for (let i = 0; i < j.length; i++) {
             document.getElementById('chImg').innerHTML +=        
             `<img src="${j[i]}">`
