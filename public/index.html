@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="comparac.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-orange.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">     
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <title>Consumo da API de League of Legends</title>
+    <style>
+        body {
+            flex-direction: column;
+            font-family: 'Merriweather', 'serif';
+            background-color: black;
+            background-image: url(Images/summoners-rift1.jpg);
+            box-shadow: inset 0px 2px 6px rgb(0, 0, 0), inset 1px 2px 100px rgb(0, 0, 0), 0px 2px 6px black;            
+            background-repeat: no-repeat;
+            background-size: cover; 
+
+
+
+        }
+
+        .demo-card-wide {
+            padding: 5px;
+            margin: 5px;
+            background-color: rgba(0,0,0,0.4);
+            color: white; 
+            
+        }
+
+
+
+        .mdl-card__title {            
+            font-size: 1.2em;
+            font-family: 'Nunito Sans', 'sans-serif';
+            color: white;
+            background-color: rgba(0,0,0,0.5);
+            margin-top: 0px;
+
+        }
+        
+
+        .ab {
+            margin: 5px;          
+                       
+        }
+
+        .abImg {
+            opacity: 0.5;
+
+        }
+
+
+
+
+        .abImg:hover {
+            box-shadow: 0px 2px 20px rgb(0, 0, 0), inset 1px 20px 100px rgb(0, 0, 0), 0px 2px 20px black;
+            cursor: pointer;
+            opacity: 1 !important;
+            width: 115px !important;           
+            transition: ease 2 !important;
+
+            
+        }
+
+
+
+        button {
+            background-color: rgba(255,255,255,0);
+            border: none;             
+            top: 50%;
+            color: white;                               
+        }          
+
+        button:hover {
+            cursor: pointer;
+        }  
+        
+        .material-icons {
+            font-size: 3em;
+        }
+
+
+        .mdl-card {
+            display: inline;
+        }
+
+
+
+        .cimg {
+            display: inline;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        header {
+            background-color: rgb(17, 17, 17) !important;
+        }
+
+        .inlvl {
+            border: none;
+            border-radius:10px;            
+            background-color:rgba(0,0,0,0.4);
+            color: white;
+            padding: 5px;
+            font-size: 2em;
+        }
+
+        .inlvl:enabled {
+            border: none;            
+            background-color:rgba(0,0,0,0.4);
+            color: white;
+            padding: 5px;
+            font-size: 1.5em;
+        }
+
+        .nvlbl {
+            font-family: 'Nunito Sans', 'sans-serif';
+            font-size: 2em;
+        }
+
+        input[type=number]::-webkit-inner-spin-button {
+            opacity: 0.5;
+            color:black;
+            border-radius:5px;
+        }
+
+
+
+
+        h1 {
+            font-family: 'Amiri', 'serif';
+            font-size: 4em;
+        }
+
+
+        h4 {
+            font-family: 'Poppins', 'sans-serif';            
+            
+        }
+
+        h6 {
+            font-family: 'Poppins', 'sans-serif';            
+            
+        }
+
+ 
+
+        .active, .mdl-navigation__link:hover {        
+            color: gold !important;
+            border-bottom: 5px solid rgb(59, 135, 170);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;           
+            
+        }
+
+        #iText {
+            font-family: 'Roboto Slab', serif;
+
+        }
+
+        #avt {
+            box-shadow: 0px 2px 6px rgb(0, 0, 0), inset 1px 2px 100px rgb(0, 0, 0), 0px 2px 6px black;
+            border: 10px solid black;
+        }
+
+
+
+
+   
+
+
+    </style>
+</head>
+<body>
+    <div id="bg">        
+        <header class="mdl-layout__header mdl-layout__header--scroll">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <a href="index.html">
+                    <img src="Images/League_of_Legends_logo.png" width="115px">
+                </a>
+                <!-- Navigation -->
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer" style="margin-left: 100px;"></div>
+                <div class="mdl-layout-spacer" ></div>
+                <nav class="mdl-navigation" style="margin-right: 500px">
+                    <a id="n1" class="mdl-navigation__link active" href="index.html">Página Inicial</a>
+                    <a id="n2" class="mdl-navigation__link" href="campeoes.html?#">Campeões</a>
+                    <a id="n3" class="mdl-navigation__link" href="items.html">Itens</a>
+                    <a id="n4" class="mdl-navigation__link" href="versus.html">Versus</a>
+                </nav>
+                
+            </div>
+        </header>
+    
+
+        <!-- style="display: flex; flex-direction:row; flex-wrap: wrap; justify-content: center; text-align: center; color: white; 
+            margin: 5px; width: 100%;" -->
+        <!-- style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:center; margin: 4px; -->
+        <!-- main -->
+        <div id="main" style="justify-content: center; display: flex; flex-wrap: wrap; visibility: visible;">
+            <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="display: flex; flex-direction:row; flex-wrap: wrap; justify-content: center; text-align: center; color: white; 
+            margin: 5px; width: 100%; height:100%;">
+                <div id="fcv" class="carousel"  style="display: flex; flex-direction:row; flex-wrap: wrap; justify-content: center; text-align: center; color: white;height:100%;">
+                    <div id="cAv1" class="demo-card-wide mdl-card mdl-shadow--2dp" style="display: flex; flex-direction: row; justify-content: center; text-align: center; color: white; width: 90%">
+                        <div id="cAv1" class="demo-card-wide mdl-card mdl-shadow--2dp" style="justify-content: center; text-align: justify; color: white; margin:10px; width: 80%;">
+                            
+                            <div style="display: flex; flex-direction: row; justify-content: center;">
+                                <img id="avt" src="Images\marcondesequandos.JPG" width="200" style="margin: 10px 50px 10px 10px;">
+                                <div style="display: flex; flex-direction:column;">
+                                    <h1>CONSUMO DA API: LOL</h1>
+                                </div>
+                                
+                            </div>
+
+
+                            <div id="iText" style="margin: 10px;"> Meu nome é Felipe Marcondes, tenho 35 anos de idade e desde outubro de 2020 estou decidido a mudar de carreira. Tive a sorte de terem me recomendado
+                                o módulo Beginners da Iv2, foram dois meses de aprendizado intenso. Parabenizo a Iv2 pela iniciativa, o curso é fantástico, metodologia do EAD + suporte no Discord, 
+                                tudo maravilhoso, só da pra fazer comentários positivos. E mais dois fatos me deixaram surpreso: primero eu não imaginei que conseguisse aprender tanto em tão pouco tempo e
+                                também nem sonhava que aprender a programar se tornaria uma paixão pra mim, pois quando estou resolvendo os problemas que surgem é como se eu tivesse jogando um jogo e me 
+                                divirto com isso!
+                                <br>
+                                <br>
+                                Depois de terminar o Beginners quero continuar aprimorando o que já aprendi e buscar novos aprendizados, ainda pensando se vou aprender React ou Angular, a intenção é 
+                                continuar os estudos e não parar mais.
+
+                                
+                                <br>
+                                <br>
+                                Essa página é o projeto final do módulo Beginners da Iv2. A ideia é consumir a API do jogo League of Legends (Riot), construindo 2 páginas requisitadas nas user stories:
+                                Consulta de Campeões e Items, com as especificações estabelecidas. E mais uma página construída de acordo com a ideia do aluno, que no caso do meu projeto chama-se "Versus"
+                                na qual coloco a opção de comparar informações básicas sobre dois campeões diferentes.
+                                <br>
+                                <br>
+                                Abaixo você pode ver uma miniatura das três sessões criadas e que podem ser melhor visualizadas ao clicar nos links da barra de navegação, localizada na parte superior da página.                               
+
+
+                            </div>                            
+                        </div>
+                    </div>                
+                    <div id="cAv1" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 29.3%;">
+                        <h4>Campeões</h4>
+                        <img src="Images\Campeões_thumb.JPG" alt="" width="500">                        
+                    </div>
+                    <div id="cAv2" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 29.3%;">
+                        <h4>Itens</h4>
+                        <img src="Images\Items_thumb.JPG" alt="" width="500">                     
+                    </div>
+                    <div id="cAv3" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 29.3%;">
+                        <h4>Versus</h4>
+                        <img src="Images\Versus_thumb.JPG" alt="" width="500">                        
+                    </div>
+                </div> 
+            </div>            
+
+            
+
+
+        </div>                    
+    </div>            
+    <script src="sobre.js"></script>
+</body>
+</html>
+
+
+

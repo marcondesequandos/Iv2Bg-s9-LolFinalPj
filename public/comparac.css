@@ -80,7 +80,7 @@
   }
 
   .chpic:hover {
-    box-shadow: 0px 2px 20px white, inset 1px 20px 100px white, 0px 2px 20px white;
+    box-shadow: 0px 2px 20px rgba(29, 129, 59, 0.795), inset 1px 20px 100px rgb(56, 95, 53), 0px 2px 20px rgb(95, 141, 89);
     cursor: pointer;                              
     
 }

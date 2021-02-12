@@ -24,8 +24,6 @@
             font-family: 'Merriweather', 'serif';
             background-color: black;
 
-
-
         }
 
         #main {
@@ -65,9 +63,6 @@
 
         }
 
-
-
-
         .abImg:hover {
             box-shadow: 0px 2px 20px rgb(0, 0, 0), inset 1px 20px 100px rgb(0, 0, 0), 0px 2px 20px black;
             cursor: pointer;
@@ -77,10 +72,6 @@
 
             
         }
-
-
-
-
 
         button {
             background-color: rgba(255,255,255,0);
@@ -148,21 +139,7 @@
 
 
 
-        #camp {
-            box-shadow: inset 0px 2px 6px rgb(0, 0, 0), inset 1px 2px 100px rgb(0, 0, 0), 0px 2px 6px black;
-        }
 
-        #cNam {
-            border-bottom: solid 0.5px rgba(128, 128, 128, 0.623);
-            
-        }
-
-
-        #cNam:active {
-            border-bottom: solid 0.5px rgba(128, 128, 128, 0.623);
-            color: grey;
-            
-        }
 
         h1 {
             font-family: 'Amiri', 'serif';
@@ -175,25 +152,14 @@
             
         }
 
-        .ts {
-            opacity: 1;
-            animation: fadeIn 2s ease;
-
+        .active, .mdl-navigation__link:hover {        
+            color: gold !important;
+            border-bottom: 5px solid rgb(59, 135, 170);
+            margin-bottom: 5px;
+            transition: all 0.3s ease;           
+            
         }
-
-        @keyframes fadeIn{
-            0%{
-                opacity: 0;
-            }
-            100%{
-                opacity: 1;
-            }
-        }
-
-
-
    
-
 
     </style>
 </head>
@@ -207,8 +173,15 @@
                 </a>
                 <!-- Navigation -->
                 <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer" style="margin-left: 100px;">                    
-                </div>
+                <div class="mdl-layout-spacer" style="margin-left: 100px;"></div>
+                <div class="mdl-layout-spacer" ></div>
+                <nav class="mdl-navigation" style="margin-right: 500px">
+                    <a id="n1" class="mdl-navigation__link" href="index.html">Página Inicial</a>
+                    <a id="n2" class="mdl-navigation__link" href="campeoes.html?#">Campeões</a>
+                    <a id="n3" class="mdl-navigation__link" href="items.html">Itens</a>
+                    <a id="n4" class="mdl-navigation__link active" href="versus.html">Versus</a>
+                </nav>
+                
             </div>
         </header>
     

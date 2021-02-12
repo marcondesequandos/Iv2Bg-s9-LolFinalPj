@@ -1,33 +1,9 @@
-//Dificuldade 1 a 3 baixa; 4 a 7 moderada; 8 a 10 alta
-
-//conteudo done:
-//fetch ok
-//infos intro ok
-//imagem ok
-//atributos ok
-//skills imagens ok
-//skills desc ok
-// busca champs ok
-
-
-//implementar change img para função de champions ok
-//implementar change img para dificuldade ok
-//mudar estilo controlador de nível e geral da div ver se da pra fazer duas colunas ok
-//ver qual informação a mais pode ser colocada ok
-//arrumar input ok
-
-//loader?
-//pensar num return false para o input (ex Viego)
-//fonte das descrições
-
-
-//fazer pagina de itens
-
-
-
+//focus na busca
 
 const buscaC = document.getElementById('cNam')
 buscaC.focus()
+
+//** */
 
 
 
@@ -36,21 +12,8 @@ buscaC.focus()
 var champn
 var mCont = document.getElementById('main')
 
-// function capitalizeFirstLetter(string) {
-//     return string.charAt(0).toUpperCase() + string.slice(1);
-//   }
-// console.log(champn)  
-// capitalizeFirstLetter(champn)
 
-
-// jQuery(document).ready(function () {
-
-//     jQuery('#nomeC').keyup(function () {
-//         var str = jQuery('#nomeC').val();
-
-
-
-
+//chamando input para adicionar funções
 
 buscaC.addEventListener("keyup", function(e) {
     
@@ -71,7 +34,7 @@ buscaC.addEventListener("keyup", function(e) {
 
 
 
-
+//Ajuste da box de nível por atr para não preencher mais do q 18
   
 
 function ForNumbers(evt){
@@ -92,7 +55,7 @@ function ForNumbers(evt){
     charCode >= 35 && charCode <= 46
     )
     {
-    //make sure the new value below 18
+    // 18 and below 
     if(parseInt(this.value+String.fromCharCode(charCode), 10) <= 18) 
         return true;
     }
@@ -103,7 +66,11 @@ function ForNumbers(evt){
     return false
 }
 
+//adicionando no input lvl a função para limitar nível digitado
+
 document.getElementById('nvl').addEventListener('keypress', ForNumbers, false)
+
+//funçôes remove spaces, remove delta e titlecase definidas, foi colocada no keyup do input de champion
 
 function removeSpaces() {
     var originalText = document.getElementById("cNam").value
@@ -129,16 +96,16 @@ function titleCase() {
 
     var splitStr = originalText.toLowerCase().split(' ')
     for (var i = 0; i < splitStr.length; i++) {
-        // You do not need to check if i is larger than splitStr length, as your for does that for you
-        // Assign it back to the array
+
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
     }   
-// Directly return the joined string
+
 
 document.getElementById('cNam').value = splitStr.join(' ')
 
 }
 
+//função summonChampion carregada no keyup. Aqui tem o core da página com o fetch, etc.
 
 
 function summonChampion () {
@@ -168,27 +135,15 @@ function summonChampion () {
     document.getElementById('chSk').style.visibility = "visible"
     
 
-    console.log(champn)
+   
 
-    let loader = `      
-    <div id="ldn" class="mdl-card__title align="center" style="display: flex; flex-direction: column; flex-wrap: wrap; margin-top: 10px; width:33%; font-size: 3em; justify-content: center; align-items:center;" > 
-        <h4>Carregando...</h4>
-        <progress id="progress" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></progress>  
-        
-    </div>         
-    `  
-
-    document.getElementById('chImg').innerHTML = loader
-    
 
 
     fetch(`https://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/champion/${champn}.json`)
-        .then((response) => { return response.json()
-        .then((champd) => {
-        document.getElementById('ldn').style.display = "none"
-        console.log(champd.data)
-        
-
+        .then(response =>  response.json()
+        .then(champd => {
+    
+           
         
 
 
@@ -196,15 +151,14 @@ function summonChampion () {
     cName = `${champn}`
 
 
-    console.log(cName)
-    console.log(champd.data[cName].allytips[0])
+  
 
 
     
 
-
+//vars das Abilities Passive QWER
     let Passive = champd.data[cName].passive.image.full
-    console.log(Passive)
+    
     let Q = champd.data[cName].spells[0].image.full
     let W = champd.data[cName].spells[1].image.full
     let E = champd.data[cName].spells[2].image.full
@@ -264,7 +218,7 @@ function summonChampion () {
        
 
 
-        //nome da skin:
+       
 
 
 
@@ -303,7 +257,7 @@ function summonChampion () {
 
         for (let i = 0; i < j.length; i++) {
             document.getElementById('chSk').innerHTML +=        
-            `<div><img class="c__item c__item--hiden" src="${j[i]}"></div>`
+            `<div><img src="${j[i]}"></div>`
         }
 
         for (let i = 0; i < k.length; i++) {
@@ -344,7 +298,7 @@ function summonChampion () {
 
        
 
-       console.log(skN)
+      
 
        
 
@@ -745,7 +699,7 @@ function summonChampion () {
     
     
     })
-    })
+    )
 
     
     
@@ -791,4 +745,19 @@ function summonChampion () {
         document.getElementById('Ps').style.opacity = "1"
       
     
-    })    
+    })
+
+const links = document.getElementsByClassName('mdl-navigation__link')
+const totalLinks = links.length
+
+links[i].addEventListener('click', function () {
+    updateLinks()
+
+})
+
+function updateLinks () {
+    for (let link of links)
+    link.classList.remove('mdl-navigation__link')
+    link.classList.add('mdl-navigation__link active')
+}
+    

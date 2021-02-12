@@ -1,73 +1,13 @@
-// Página vai ter busca para dois campeões mostrando a loading img (a menor), com as skills e stats by level de cada campeão
-// http://ddragon.leagueoflegends.com/cdn/11.3.1/img/champion/Aatrox.png (square assets)
-
-
-    
-// fetch(`http://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/summoner.json`)
-// .then(res => res.json())
-// .then(json => {
-//     console.log(json)
-    
-
-
-// })
-
-// ajuste no input de Level:
-
-//adicionar efeito hover nas imagens
-//ver se rola fazer alteração nos finalItems
-//Adicionar navegação entre paginas
-//Adicionar Sobre
-
-
-
-function ForNumbers(evt){
-    var charCode = (evt.which) ? evt.which : event.keyCode
-
-    if (
-    //0~9
-    charCode >= 48 && charCode <= 57 ||
-       //number pad 0~9
-       charCode >= 96 && charCode <= 105 ||
-    //backspace
-       charCode == 8 ||
-    //tab
-    charCode == 9 ||
-    //enter
-    charCode == 13 || 
-    //left, right, delete..
-    charCode >= 35 && charCode <= 46
-    )
-    {
-    //make sure the new value below 18
-    if(parseInt(this.value+String.fromCharCode(charCode), 10) <= 18) 
-        return true;
-    }
-
-    evt.preventDefault()
-    evt.stopPropagation()
-
-    return false
-}
-
-
-
-//ajuste level fim
-
-
 
 var champs 
 var j
 
 function summonChampions () {
 
-    fetch(`http://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/champion.json`)
+    fetch(`https://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/champion.json`)
         .then(res => res.json())
         .then(json => {
-        // console.log(json.data)
-        // console.log(json.data[Object.keys(json.data)[0]].name)
-        // var jsonOb = json.data[Object.keys(json.data)[0]]
-        // console.log(jsonOb.name) 
+
 
         var j = []
         var k = []
@@ -75,37 +15,16 @@ function summonChampions () {
 
         for (num in json.data) {
             
-            j.push(json.data[num].id)
-           
-            // console.log(k)
-            
-            // console.log(num)
-            
-            
-            
-
-            
-                       
-                    
-
-            var cnam = json.data[num].name
-            // console.log(cnam)     
-            
-            // document.getElementById('cAv').innerHTML += 
-            // `
-            // <div style="display: flex; flex-direction: column; justify-content:center; margin: 4px;">
-            //     <div class="foto" style="width:50px; padding: 2px;height: 50px;"><img class="foto" id="${num}" style="width:50px" src="http://ddragon.leagueoflegends.com/cdn/11.3.1/img/champion/${num}.png" title=${num}></div>
-            //     <div><p style="font-size: 0.8em;">${cnam}<p></div>
-            // </div>           
-            // `   
-
-
-
+            j.push(json.data[num].id)               
+                                                                 
         }
 
         for (nam in json.data) {
             k.push(json.data[nam].name)
         }
+
+    //carousel 
+    //carousel botões
 
         var rOne = 0
         var rTwo = 54
@@ -114,7 +33,7 @@ function summonChampions () {
         for (let i = rOne; i < rTwo; i++) {
         
 
-            // console.log(j[i])
+    
 
           
 
@@ -133,7 +52,7 @@ function summonChampions () {
         for (let i = rOne; i < rTwo; i++) {
         
 
-            // console.log(j[i])
+     
 
          
 
@@ -152,7 +71,7 @@ function summonChampions () {
         for (let i = rOne; i < rTwo; i++) {
         
 
-            // console.log(j[i])
+      
 
          
 
@@ -171,7 +90,7 @@ function summonChampions () {
 })
 
 
-//carousel
+//carousel resto dafunção (imgs)
 
     let slidePosition = 0
     const slides = document.getElementsByClassName('carousel__item')
@@ -231,10 +150,10 @@ function chamar(champion) {
 
 
     
-    fetch(`http://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/champion.json`)
+    fetch(`https://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/champion.json`)
         .then(res => res.json())
         .then(champd => {
-            console.log(champd.data)
+       
 
             var l = []
 
@@ -244,7 +163,7 @@ function chamar(champion) {
 
             var cName = `${l[champion]}`
 
-            console.log(champd.data[cName])
+   
 
             if (champd.data[cName].tags[0] == "Marksman") {
                 var func = "Atirador"
@@ -278,17 +197,16 @@ function chamar(champion) {
 
             }
 
-            console.log(check)
+
 
             uPnam = champd.data[cName].name.toUpperCase()
             uPtit = champd.data[cName].title.toUpperCase()
             if (check == "Champion 1") {
 
-                var ch1 = champd.data[cName].id                     
+                                    
 
 
-                // console.log(champd.data[cName])
-                // console.log(ch1.stats.hpperlevel)
+     
 
              
 
@@ -329,9 +247,8 @@ function chamar(champion) {
 
             } else if (check == "Champion 2") {
 
-                var ch2 = champd.data[cName]
-                // console.log(ch2)
-                // console.log(champd.data[cName])
+              
+  
 
 
 
@@ -377,4 +294,16 @@ function chamar(champion) {
 
 
 
+const links = document.getElementsByClassName('mdl-navigation__link')
+const totalLinks = links.length
 
+links[i].addEventListener('click', function () {
+    updateLinks()
+
+})
+
+function updateLinks () {
+    for (let link of links)
+    link.classList.remove('mdl-navigation__link')
+    ('mdl-navigation__link active')
+}
