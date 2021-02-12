@@ -10,11 +10,15 @@
 // busca champs ok
 
 
-//implementar change img para função de champions
-//implementar change img para dificuldade
-//mudar estilo controlador de nível e geral da div ver se da pra fazer duas colunas
-//ver qual informação a mais pode ser colocada
-//arrumar input
+//implementar change img para função de champions ok
+//implementar change img para dificuldade ok
+//mudar estilo controlador de nível e geral da div ver se da pra fazer duas colunas ok
+//ver qual informação a mais pode ser colocada ok
+//arrumar input ok
+
+//loader?
+//pensar num return false para o input (ex Viego)
+//fonte das descrições
 
 
 //fazer pagina de itens
@@ -22,7 +26,8 @@
 
 
 
-
+const buscaC = document.getElementById('cNam')
+buscaC.focus()
 
 
 
@@ -47,7 +52,7 @@ var mCont = document.getElementById('main')
 
 
 
-document.getElementById('cNam').addEventListener("keyup", function(e) {
+buscaC.addEventListener("keyup", function(e) {
     
     titleCase()
     
@@ -160,14 +165,27 @@ function summonChampion () {
     document.getElementById('stlvl').style.visibility = "visible"
     document.getElementById('trd').style.visibility = "visible"
     document.getElementById('frt').style.visibility = "visible"
+    document.getElementById('chSk').style.visibility = "visible"
     
 
     console.log(champn)
 
+    let loader = `      
+    <div id="ldn" class="mdl-card__title align="center" style="display: flex; flex-direction: column; flex-wrap: wrap; margin-top: 10px; width:33%; font-size: 3em; justify-content: center; align-items:center;" > 
+        <h4>Carregando...</h4>
+        <progress id="progress" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></progress>  
+        
+    </div>         
+    `  
 
-    fetch(`https://ddragon.leagueoflegends.com/cdn/10.23.1/data/pt_BR/champion/${champn}.json`)
+    document.getElementById('chImg').innerHTML = loader
+    
+
+
+    fetch(`https://ddragon.leagueoflegends.com/cdn/11.3.1/data/pt_BR/champion/${champn}.json`)
         .then((response) => { return response.json()
         .then((champd) => {
+        document.getElementById('ldn').style.display = "none"
         console.log(champd.data)
         
 
@@ -231,16 +249,25 @@ function summonChampion () {
        
 
         for (skin in champd.data[cName].skins) {
-        j.push(`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champn}_`+champd.data[cName].skins[skin].num+`.jpg`)   
+            j.push(`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champn}_`+champd.data[cName].skins[skin].num+`.jpg`)   
         }
+
+        
+
+        var k = [] 
+
+        for (skN in champd.data[cName].skins) {
+            k.push(champd.data[cName].skins[skN].name)
+        }
+
+                
+       
+
 
         //nome da skin:
 
 
-        for (let i = 0; i < j.length; i++) {
-            document.getElementById('chImg').innerHTML +=        
-            `<img src="${j[i]}">`
-        }
+
 
         
 
@@ -251,103 +278,151 @@ function summonChampion () {
 
         document.getElementById('chImg').innerHTML =
         
-        `
-        <div style="display:flex; flex-direction: row; justify-content: center; text-align:center; align-items: center;">        
-        <p style="justify-content: center; margin: 0px">
-        <button class="cimg" id="lbt" "><span class="material-icons">keyboard_arrow_left</span></button>        
-        
-        </p> 
-
-        <div class="cimg" id="sk">
-            
-            <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+        `  
+        <div class="cimg" id="skD">            
+            <div class="mdl-card__title" style="display:flex; flex-direction: column; flex-wrap: wrap; justify-content: center; text-align:center;">
                 <img id="camp" width="50%" src='https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champn}_${cont}.jpg''> 
-                <div style="display: flex; flex-direction: row; align-items: center;">                   
+                <div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center;">                   
                 <h1 style="margin-right: 90px;"> ${chNam}</h1>
-                <h4> - ${chTit} -</h4>            
+                <h4> - ${chTit} - </h4>            
                 </div>
                 
                 
-                <div style="display: flex; flex-direction: row; align-items: center;">            
+                <div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: center;">            
                 <h6 style="margin-right: 90px;">  Função: ${func} `+ '    ' + ` <img src='Images/`+champd.data[cName].tags[0]+`.jpg' width="70px"> </h6>
                 <h6>Dificuldade: ${diff} <br> <img src='Images/${diff}.png' width="70px"></h6>
                 </div>
-                <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
+                <div class="mdl-card__title" style="display:flex; flex-direction: column; flex-wrap: wrap; justify-content: center; text-align:center;">
                 `+ champd.data[cName].lore + `
                 </div>
-            </div>
-            
+            </div>            
+        </div>  
         </div>
-        <button class="cimg" id="rbt" ><span class="material-icons">keyboard_arrow_right</span></button>
+                                         
+        `
 
+        for (let i = 0; i < j.length; i++) {
+            document.getElementById('chSk').innerHTML +=        
+            `<div><img class="c__item c__item--hiden" src="${j[i]}"></div>`
+        }
+
+        for (let i = 0; i < k.length; i++) {
+            document.getElementById('chSk').innerHTML +=        
+            `<div>${k[i]}</div>`
+        }
+        contSk = 0
+
+        document.getElementById('chSk').innerHTML =
+
+        `
+        <div style="display:flex; flex-direction: row; justify-content: center; text-align:center; align-items: center;">        
+            <p style="justify-content: center; margin: 0px">
+                <button class="cimg" id="lbt"><span class="material-icons">keyboard_arrow_left</span></button>       
+            </p> 
+            <div class="cimg" id="skA">
+                <div>
+                    <h1>SKINS DISPONÍVEIS</h1>
+                    <h4>${cName}</h4>
+                </div>
+                <div class="mdl-card__title" style="display:flex; flex-direction: column; flex-wrap: wrap; justify-content: center; text-align:center;">
+                    <img class="ts" id="camp" src='https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champn}_${contSk}.jpg''>                
+                </div>            
+            </div>
+            <p style="justify-content: center; margin: 0px">
+                <button class="cimg" id="rbt"><span class="material-icons">keyboard_arrow_right</span></button>
+            </p>    
         </div>
                                          
         `
 
 
 
+
+
         var maxJ = j.length
         var cont1 = 0
-        console.log(maxJ -1)
 
-        document.getElementById('rbt').addEventListener('click', function() {
-        if(cont1 < (maxJ -1)) {
-            cont1++ 
-        } else if (cont1 == (maxJ -1)) {
-            cont1 = 0
-        } 
+       
 
-        document.getElementById('sk').innerHTML = 
+       console.log(skN)
 
-        
+       
 
-        `<div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
-        <img id="camp" width="50%" src="`+j[cont1]+`">  
-        <div style="display: flex; flex-direction: row; align-items: center;">                   
-        <h1 style="margin-right: 90px;"> ${chNam}</h1>
-        <h4> - ${chTit} -</h4>            
-        </div>       
-        <div style="display: flex; flex-direction: row; align-items: center;">            
-        <h6 style="margin-right: 90px;">  Função: ${func} `+ '    ' + ` <img src='Images/`+champd.data[cName].tags[0]+`.jpg' width="70px"> </h6>
-        <h6>Dificuldade: ${diff} <br> <img src='Images/${diff}.png' width="70px"></h6>
-        </div>
-        <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
-        `+ champd.data[cName].lore + `
-        </div>
-        </div>
-        `
+        document.getElementById('rbt').addEventListener('click', function() {  
+    
+            if(cont1 < (maxJ -1)) {
+                cont1++ 
+            } else if (cont1 == (maxJ -1)) {
+                cont1 = 0
+            }
+            
+            
+                    
 
+            document.getElementById('skA').innerHTML = 
 
+            
+
+            `
+            <div class="cimg" id="sk">
+                <div>
+                    <h1>SKINS DISPONÍVEIS</h1>
+                    <h4 id="skT">${k[cont1]}</h4>
+                </div>            
+                <div class="mdl-card__title" style="display:flex; flex-direction: column; flex-wrap: wrap; justify-content: center; text-align:center;">
+                <img class="ts" id="camp" src="`+j[cont1]+`">                 
+                </div>            
+            </div>       
+            </div>                                         
+            `
+            chDef()
+     
 
         })
+
+
         
 
         document.getElementById('lbt').addEventListener('click', function() {
-        if(cont1 <= (maxJ -1) && cont1 > 0) {
-            cont1-- 
-        } else if (cont1 == 0) {
-            cont1 = (maxJ -1)       
-        } 
+           
+            if(cont1 <= (maxJ -1) && cont1 > 0) {
+                cont1-- 
+            } else if (cont1 == 0) {
+                cont1 = (maxJ -1)       
+            } 
 
-        document.getElementById('sk').innerHTML = 
 
-        `<div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
-        <img id="camp" width="50%" src="`+j[cont1]+`">  
-        <div style="display: flex; flex-direction: row; align-items: center;">                   
-        <h1 style="margin-right: 90px;"> ${chNam}</h1>
-        <h4> - ${chTit} -</h4>            
-        </div>       
-        <div style="display: flex; flex-direction: row; align-items: center;">            
-        <h6 style="margin-right: 90px;">  Função: ${func} `+ '    ' + ` <img src='Images/`+champd.data[cName].tags[0]+`.jpg' width="70px"> </h6>
-        <h6>Dificuldade: ${diff} <br> <img src='Images/${diff}.png' width="70px"></h6>
-        </div>
-        <div class="mdl-card__title" style="display:flex; flex-direction: column; justify-content: center; text-align:center;">
-        `+ champd.data[cName].lore + `
-        </div>
-        </div>
-        `
+            
+
+
+            document.getElementById('skA').innerHTML = 
+
+            `
+            <div class="cimg" id="sk">
+                <div>
+                    <h1>SKINS DISPONÍVEIS</h1>
+                    <h4 id="skT">${k[cont1]}</h4>
+                </div>            
+                <div class="mdl-card__title" style="display:flex; flex-direction: column; flex-wrap: wrap; justify-content: center; text-align:center;">
+                <img class="ts" id="camp" src="`+j[cont1]+`">                 
+                </div>            
+            </div>       
+            </div>                                         
+            `
+
+            chDef()
+         
 
         })
+
+        function chDef () {
+            if (cont1 == 0) {
+                document.getElementById('skT').innerHTML = `${cName}`
+            } 
+            
+        }
+        
+
 
     }   
 
@@ -355,8 +430,8 @@ function summonChampion () {
     document.getElementById('stcont').innerHTML =
 
     `
-    <div style="display:flex; flex-direction: row; align-items: center; justify-content: center; text-align: right;">
-    <div id="st" style="margin-right:100px;">
+    <div style="display:flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; text-align: right;">
+    <div id="st" style="margin-right:50px;">
         <br>                   
         <p>Vida: ` + champd.data[cName].stats.hp + `</p>
         <p>Velocidade de Movimento: ` + champd.data[cName].stats.movespeed + `</p>
@@ -370,7 +445,10 @@ function summonChampion () {
         <p>Resistência Mágica: ` + champd.data[cName].stats.spellblock + `</p>
         <p>Mana: ` + champd.data[cName].stats.mp + `</p>    
     </div>
-    </div>    
+    </div>
+    <br>
+    <br>
+    <br>    
     `
 
     
@@ -400,7 +478,7 @@ function summonChampion () {
 
             `
             <div style="display:flex; flex-direction: row; align-items: center; justify-content: center; text-align: right;">
-                <div id="st" style="margin-right:100px;">
+                <div id="st" style="margin-right:50px;">
                     <br>                   
                     <p>Vida: ` + hpUP + `</p>
                     <p>Velocidade de Movimento: ` + vmUP + `</p>
@@ -415,13 +493,16 @@ function summonChampion () {
                     <p>Mana: ` + mpUP + `</p>                
                 </div>
                 
-            </div> 
+            </div>
+            <br>
+            <br>
+            <br>  
             `  
     } else {
 
         `
         <div style="display:flex; flex-direction: row; align-items: center; justify-content: center; text-align: right;">
-        <div id="st" style="margin-right:100px;">
+        <div id="st" style="margin-right:50px;">
             <br>                   
             <p>Vida: ` + champd.data[cName].stats.hp + `</p>
             <p>Velocidade de Movimento: ` + champd.data[cName].stats.movespeed + `</p>
@@ -435,7 +516,10 @@ function summonChampion () {
             <p>Resistência Mágica: ` + champd.data[cName].stats.spellblock + `</p>
             <p>Mana: ` + champd.data[cName].stats.mp + `</p>    
         </div>
-        </div>    
+        </div>
+        <br>
+        <br>
+        <br>     
         `
 
     }
@@ -466,15 +550,15 @@ function summonChampion () {
 
 
     document.getElementById('passAb').innerHTML =
-    `<img  id="Ps" class="abImg" style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/passive/${Passive}" onclick="resizeImage(this)">`
+    `<img  id="Ps" class="abImg" style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/11.3.1/img/passive/${Passive}" onclick="resizeImage(this)">`
     document.getElementById('abQ').innerHTML =
-    `<img id="Q" class="abImg" style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${Q}" onclick="resizeImage(this)">`
+    `<img id="Q" class="abImg" style="width:100px" src="https://ddragon.leagueoflegends.com/cdn/11.3.1/img/spell/${Q}" onclick="resizeImage(this)">`
     document.getElementById('abW').innerHTML =
-    `<img id="W" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${W}" onclick="resizeImage(this)">`
+    `<img id="W" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/11.3.1/img/spell/${W}" onclick="resizeImage(this)">`
     document.getElementById('abE').innerHTML =
-    `<img id="E" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${E}" onclick="resizeImage(this)">`
+    `<img id="E" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/11.3.1/img/spell/${E}" onclick="resizeImage(this)">`
     document.getElementById('abR').innerHTML =
-    `<img id="R" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/10.23.1/img/spell/${R}" onclick="resizeImage(this)">`
+    `<img id="R" class="abImg" style="width:100px"  src="https://ddragon.leagueoflegends.com/cdn/11.3.1/img/spell/${R}" onclick="resizeImage(this)">`
 
     document.getElementById('passDsc').innerHTML = 
 
